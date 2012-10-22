@@ -8,7 +8,7 @@ var CommandManager = (function() {
     CommandManager.executed.push(cmd);
   };
   
-  CommandManager.unexecute = function unexecute() {
+  CommandManager.undo = function undo() {
     var cmd = CommandManager.executed.pop();
     if (cmd !== undefined && cmd.unexecute !== undefined) {
       cmd.unexecute();
@@ -24,7 +24,7 @@ var CommandManager = (function() {
     }
   };
   
-  CommandManager.reexecute = function reexecute() {
+  CommandManager.redo = function redo() {
     var cmd = CommandManager.unexecuted.pop();
     if (cmd !== undefined){
       cmd.execute();
