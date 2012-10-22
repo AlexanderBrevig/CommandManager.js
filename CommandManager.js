@@ -1,5 +1,6 @@
 var CommandManager = (function() {
   function CommandManager() {}
+
   CommandManager.executed = [];
   CommandManager.unexecuted = [];
   
@@ -9,33 +10,27 @@ var CommandManager = (function() {
   };
   
   CommandManager.undo = function undo() {
-    var cmd = CommandManager.executed.pop();
-    if (cmd !== undefined && cmd.unexecute !== undefined) {
-      cmd.unexecute();
-    } 
-    if (cmd !== undefined){
-      CommandManager.unexecuted.push(cmd);
-    } else {
-      cmd = CommandManager.unexecuted.pop();
-      if (cmd !== undefined && cmd.unexecute !== undefined){
-        cmd.unexecute();
+    var cmd1 = CommandManager.executed.pop();
+    if (cmd1 !== undefined){
+      if (cmd1.unexecute !== undefined){
+        cmd1.unexecute();
       }
-      CommandManager.unexecuted.push(cmd);
+      CommandManager.unexecuted.push(cmd1);
     }
   };
   
   CommandManager.redo = function redo() {
-    var cmd = CommandManager.unexecuted.pop();
-    if (cmd !== undefined){
-      cmd.execute();
-      CommandManager.executed.push(cmd);
-    } else {
-      cmd = CommandManager.executed.pop();
-      if (cmd !== undefined){
-        cmd.execute();
-        CommandManager.executed.push(cmd);
-        CommandManager.executed.push(cmd);
-      }
+    var cmd2 = CommandManager.unexecuted.pop();
+    
+    if (cmd2 === undefined){
+      cmd2 = CommandManager.executed.pop();
+      CommandManager.executed.push(cmd2); 
+      CommandManager.executed.push(cmd2); 
+    }
+    
+    if (cmd2 !== undefined){
+      cmd2.execute();
+      CommandManager.executed.push(cmd2); 
     }
   };
   

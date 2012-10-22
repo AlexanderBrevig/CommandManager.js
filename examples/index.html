@@ -19,6 +19,7 @@
     </div>
   </div>
   <div class="container">
+    <button id="addNumbers" class="btn">Add numbers</button>
     <button id="addText" class="btn">Add text</button>
     <button id="redo" class="btn">Redo</button>
     <button id="undo" class="btn">Undo</button>
@@ -31,16 +32,27 @@
   <script src="../CommandManager.js"></script>
   <script type="text/javascript">
   $(function(){
-    var id = 0;
-    $("#addText").click(function(){
-        id++;
+    $("#addNumbers").click(function(){
         CommandManager.execute({
           execute: function(){
-            this.newid = id;
-            $("#text").append("text from command " + this.newid+"\n");
+            $("#text").append("\n0123456789");
           },
           unexecute: function(){
-            var html =$("#text").html().replace("text from command " + this.newid+"\n", "");
+            //t.split("\n").slice(0,2)
+            var arr = $("#text").html().split("\n");
+            var html = arr.slice(0,arr.length-1).join("\n");
+            $("#text").html(html);
+          }
+        });
+    });
+    $("#addText").click(function(){
+        CommandManager.execute({
+          execute: function(){
+            $("#text").append("\ntext from command");
+          },
+          unexecute: function(){
+            var arr = $("#text").html().split("\n");
+            var html = arr.slice(0,arr.length-1).join("\n");
             $("#text").html(html);
           }
         });
